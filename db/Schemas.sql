@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS user_message_words (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   word VARCHAR(255) NOT NULL,
   bot_response_id INTEGER NOT NULL,
-  FOREIGN KEY(bot_response_id) REFERENCES bot_responses(id)
+  FOREIGN KEY(bot_response_id) REFERENCES bot_responses(id) ON DELETE CASCADE
 );
