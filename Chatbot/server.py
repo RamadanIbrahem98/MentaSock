@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
 import socket
-import re
 from responce import Responce
 
 client_responce = Responce()
@@ -17,7 +16,7 @@ PORT = int(HOST_PORT['PORT'])
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
-#binding the server to the host ip and port number from the json file
+# binding the server to the host ip and port number from the json file
 server.bind((HOST, PORT))
 # marking our socket to be a passive socket ( it will accept incoming connection requests ). the server can listen to up to 5 clients
 server.listen(5)
@@ -32,12 +31,10 @@ while True:
     print('Client message is:', clientMessage)
     # Repeat
 
-    #setting server time out to 100 seconds of inactivity
+    # setting server time out to 100 seconds of inactivity
     server.settimeout(100)
-    
 
     serverMessage = client_responce.get_response(clientMessage)
-    
 
     conn.sendall(serverMessage.encode())
     # close connection after sending the response
