@@ -23,7 +23,16 @@ except socket.error as err:
 
 
 # binding the server to the host ip and port number from the json file
-server.bind((HOST, PORT))
+try:
+    server.bind((HOST, PORT))
+except socket.gaierror as err:
+    ui.textBrowser.append('<font color="#FF0000">500: Address-related Error</font>')
+    server.close()
+except socket.error as err:
+    ui.textBrowser.append('<font color="#FF0000">500: Connection Error</font>')
+    server.close()
+
+
 # marking our socket to be a passive socket ( it will accept incoming connection requests ). the server can listen to up to 5 clients
 server.listen(5)
 
@@ -49,4 +58,4 @@ while True:
     except socket.error as err:
         ui.textBrowser.append('<font color="#FF0000">500: Error of Sending Message</font>')
     # close connection after sending the response
-    conn.close()
+    finally: conn.close()
