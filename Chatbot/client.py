@@ -19,7 +19,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         # appending a welcoming message when the program first runs
         self.ui.textBrowser.append(
-            '<font color="#FF0000">Bot : I am ready for your Questions doctor. Go ahead ask me any thing You want</font>')
+            '<font color="#FF0000">' 
+            'Bot :Please read each statement and circle a number 0, 1, 2 or 3 which indicates how much the statement' 
+            '<br> applied to you over the past week. There are no right or wrong answers'
+            ' Do not spend too muchtime on any statement <br> <br> '
+            '0 Did not apply to me at all <br> <br> '
+            '1 Applied to me to some degree, or some of the time <br> <br>'
+            '2 Applied to me to a considerable degree or a good part of time<br> <br>'
+            '3 Applied to me very much or most of the time<br> <br>'
+            '<br> Bot : are you ready ?</font>')
         # setting the client port and host of the client as those inside the json file
         self.HOST = HOST_PORT['HOST']
         self.PORT = int(HOST_PORT['PORT'])
