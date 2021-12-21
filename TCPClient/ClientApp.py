@@ -63,7 +63,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.textBrowser.append(
             '<font color="#FF0000">Bot : '+serverMessage+'</font>')
         # closing the connection
-        self.client.close()
+        # finally: self.client.close()
 
 
 if __name__ == '__main__':
