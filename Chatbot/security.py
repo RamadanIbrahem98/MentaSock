@@ -6,23 +6,23 @@ class Security:
         self.bufferSize = 1024
         self.password = 'SockMenta'
     def Encrypt(self,text):
-        fIn = io.BytesIO(text.encode())
-        fCiph = io.BytesIO()
-        pyAesCrypt.encryptStream(fIn, fCiph,self.password,self.bufferSize)
+        input_data = io.BytesIO(text.encode())
+        output_data = io.BytesIO()
+        pyAesCrypt.encryptStream(input_data, output_data ,self.password,self.bufferSize)
         # Data to send
-        dataToSend = fCiph.getvalue()
+        dataToSend = output_data.getvalue()
         return dataToSend 
     def Decrept(self,text):
         fullData = b''
-        fCiph = io.BytesIO()
-        fDec = io.BytesIO()
+        input_data = io.BytesIO()
+        output_data = io.BytesIO()
         fullData = fullData + text 
         # Convert to bytes, get length and seek to beginning
-        fCiph = io.BytesIO(fullData)
-        ctlen= len(fCiph.getvalue())
-        fCiph.seek(0)
+        input_data = io.BytesIO(fullData)
+        ctlen= len(input_data.getvalue())
+        input_data.seek(0)
         # Decrypt stream
-        pyAesCrypt.decryptStream(fCiph, fDec,self.password,self.bufferSize, ctlen)
-        decrypted= str(fDec.getvalue().decode())
+        pyAesCrypt.decryptStream(input_data, output_data,self.password,self.bufferSize, ctlen)
+        decrypted= str(output_data.getvalue().decode())
         return decrypted
     
