@@ -44,21 +44,33 @@ class MainWindow(QtWidgets.QMainWindow):
         # connecting to the host ip and port provided by the json file
         try:
             self.client.connect((self.HOST, self.PORT))
-        except ConnectionRefusedError as e:
+        except socket.gaierror as err:
             self.ui.textBrowser.append(
-                '<font color="#FF0000">500: Internal Server Error</font>')
+                '<font color="#FF0000">500: Address-related Error</font>')
             self.client.close()
             return ''
+        except socket.error as err:
+            self.ui.textBrowser.append(
+                '<font color="#FF0000">500: Connection Error</font>')
+            self.client.close()
         # sending the encoded user message
-        self.client.sendall(text.encode())
+        try:
+            self.client.sendall(text.encode())
+        except socket.error as err:
+            self.ui.textBrowser.append('<font color="#FF0000">500: Error of Sending Message</font>')
 
         # Recieving server message (not more than 1024 bytes with encoding type of utf-8)
-        serverMessage = str(self.client.recv(1024), encoding='utf-8')
-        # appending the server response to the textBrowser widget in the GUI
-        self.ui.textBrowser.append(
-            '<font color="#FF0000">Bot : '+serverMessage+'</font>')
+        try:
+            serverMessage = str(self.client.recv(1024), encoding='utf-8')
+            # appending the server response to the textBrowser widget in the GUI
+            self.ui.textBrowser.append('<font color="#FF0000">Bot : '+serverMessage+'</font>')
+        except socket.error as err:
+            self.ui.textBrowser.append('<font color="#FF0000">500: Error of Recieving Message</font>')
+        
+        
+        
         # closing the connection
-        self.client.close()
+        finally: self.client.close()
 
 
 if __name__ == '__main__':
