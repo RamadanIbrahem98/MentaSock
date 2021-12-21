@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 import socket
+from GUI import Ui_MainWindow
+
 from responce import Responce
 
 client_responce = Responce()
+ui = Ui_MainWindow()
 
 # HOST & PORT
 with open('HOST_PORT.json', 'r', encoding='utf-8') as f:
@@ -13,7 +16,10 @@ HOST = HOST_PORT['HOST']
 PORT = int(HOST_PORT['PORT'])
 
 # using tcp socet connection from socket library (AF_INET means it utilizes internet connection)
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+except socket.error as err:
+    ui.textBrowser.append('<font color="#FF0000">500: Error of Creating socket</font>')
 
 
 # binding the server to the host ip and port number from the json file
@@ -26,7 +32,10 @@ while True:
     # accepting the client handshake
     conn, addr = server.accept()
     # recieving the client message with a limit of 1024 bytes max
-    clientMessage = str(conn.recv(1024), encoding='utf-8')
+    try:
+        clientMessage = str(conn.recv(1024), encoding='utf-8')
+    except socket.error as err:
+        ui.textBrowser.append('<font color="#FF0000">500: Error of Recieving Message</font>')
     # a print statement to check the client recieved message
     print('Client message is:', clientMessage)
     # Repeat
@@ -35,7 +44,9 @@ while True:
     server.settimeout(100)
 
     serverMessage = client_responce.get_response(clientMessage)
-
-    conn.sendall(serverMessage.encode())
+    try:
+        conn.sendall(serverMessage.encode())
+    except socket.error as err:
+        ui.textBrowser.append('<font color="#FF0000">500: Error of Sending Message</font>')
     # close connection after sending the response
     conn.close()
