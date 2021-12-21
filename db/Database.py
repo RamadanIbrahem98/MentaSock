@@ -4,7 +4,7 @@ import sqlite3
 class DB(object):
     """DB initializes and manipulates SQLite3 databases."""
 
-    def __init__(self, database='database.db', statements=None):
+    def __init__(self, database='database.db', init=None, statements=None):
         """Initialize a new or connect to an existing database.
 
         Accept setup statements to be executed.
@@ -18,8 +18,12 @@ class DB(object):
         self.display = False
         if statements is None:
             statements = []
+        with open('initialization.sql', 'r', encoding='utf-8') as sql_file:
+            database_initialization = sql_file.read()
 
         self.connect()
+
+        self.cursor.executescript(database_initialization)
 
         # execute setup satements
         self.execute(statements)

@@ -1,10 +1,10 @@
-DROP TABLE questionnaire;
-DROP TABLE answer;
-DROP TABLE question;
-DROP TABLE question_answer;
-DROP TABLE questionnaire_question;
-DROP TABLE result;
-DROP TABLE questionnaire_result;
+DROP TABLE IF EXISTS questionnaire;
+DROP TABLE IF EXISTS answer;
+DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS question_answer;
+DROP TABLE IF EXISTS questionnaire_question;
+DROP TABLE IF EXISTS result;
+DROP TABLE IF EXISTS questionnaire_result;
 CREATE TABLE IF NOT EXISTS questionnaire (for VARCHAR(50) PRIMARY KEY);
 CREATE TABLE IF NOT EXISTS answer (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
