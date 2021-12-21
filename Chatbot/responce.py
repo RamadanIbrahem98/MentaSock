@@ -1,8 +1,8 @@
 class Responce:
     def __init__(self):
-        self.quetions = ["(1)  I found it hard to wind down ? ",
+        self.quetions = ["(1)  I found it hard to wind down ? "]
 
-                         ]
+                       
         self.quetion_num = 0
         self.result = 0
 
@@ -12,7 +12,8 @@ class Responce:
             return self.quetions[0]
         if (len(self.quetions) == self.quetion_num):
             self.result = int(user_input) + self.result
-            return "your result is ready " + str(self.result)
+        
+            return "your result is " + str(self.result)
 
         # sends the splitted array to a function that checks all the words and see if we have a designated response for it
         # response = check_all_messages(client_message)
