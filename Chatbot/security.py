@@ -2,6 +2,7 @@ import io
 from json import load
 import pyAesCrypt
 import os
+from dotenv import load_dotenv
 load_dotenv()
 class Security:
     def __init__(self):
