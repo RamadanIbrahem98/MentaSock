@@ -1,13 +1,14 @@
 from datetime import datetime
 import socket
+from Responce import Responce
 
-
-class TCPServer():
+class TCPServer(Responce):
     '''
     A Simple TCP Server that handles one client at a time
     '''
 
     def __init__(self, host='127.0.0.1', port=8080):
+        super().__init__()
         self.host = host
         self.port = port
         self.socket = None
@@ -27,6 +28,8 @@ class TCPServer():
         # create TCP socket with IPv4 addressing
         self.logging('Creating socket...')
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.settimeout(100)
+
         self.logging('Socket created')
 
         # bind server to the address
@@ -39,7 +42,7 @@ class TCPServer():
 
         # start listening for incoming connections
         self.logging('Listening for incoming connection...')
-        self.sock.listen(1)
+        self.sock.listen(5)
 
         # accept a connection
         client_sock, client_address = self.sock.accept()
@@ -54,7 +57,10 @@ class TCPServer():
             while data_enc:
                 # client's request
                 name = data_enc.decode()
-                resp = 'Hello From Server'
+
+                # resp = 'Hello From Server'
+                resp = self.get_response(name)
+                print(resp)
                 self.logging(f'[ REQUEST from {client_address} ]')
                 print('\n', name, '\n')
 

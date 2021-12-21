@@ -4,6 +4,7 @@ import json
 import socket
 from PyQt5 import QtWidgets
 from GUI import Ui_MainWindow
+from TCPClient import TCPClient
 
 
 # setting up the HOST ip & PORT number from the HOST_PORT.json file
@@ -27,10 +28,11 @@ class MainWindow(QtWidgets.QMainWindow):
             '1 Applied to me to some degree, or some of the time <br> <br>'
             '2 Applied to me to a considerable degree or a good part of time<br> <br>'
             '3 Applied to me very much or most of the time<br> <br>'
-            '<br> Bot : are you ready ?</font>')
+            '<br> Bot : are you ready ? yes/no</font>')
         # setting the client port and host of the client as those inside the json file
         self.HOST = HOST_PORT['HOST']
         self.PORT = int(HOST_PORT['PORT'])
+        self.client = TCPClient(self.HOST,self.PORT)
         # attaching the button click event to a connection function responsible for sending data to server
         self.ui.pushButton.clicked.connect(self.buttonEvent)
 
@@ -40,20 +42,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.textEdit.clear()
         self.ui.textBrowser.append('You: '+text)
         # using tcp socet connection from socket library (AF_INET means it utilizes internet connection)
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client.create_socket()
+
         # connecting to the host ip and port provided by the json file
-        try:
-            self.client.connect((self.HOST, self.PORT))
-        except ConnectionRefusedError as e:
-            self.ui.textBrowser.append(
-                '<font color="#FF0000">500: Internal Server Error</font>')
-            self.client.close()
-            return ''
+        # try:
+        serverMessage = self.client.interact_with_server(text)
+        # self.client.connect((self.HOST, self.PORT))
+        # except ConnectionRefusedError as e:
+        #     self.ui.textBrowser.append(
+        #         '<font color="#FF0000">500: Internal Server Error</font>')
+        #     self.client.close()
+        #     return ''
         # sending the encoded user message
-        self.client.sendall(text.encode())
+        # self.client.sendall(text.encode())
 
         # Recieving server message (not more than 1024 bytes with encoding type of utf-8)
-        serverMessage = str(self.client.recv(1024), encoding='utf-8')
+        # serverMessage = str(self.client.recv(1024), encoding='utf-8')
         # appending the server response to the textBrowser widget in the GUI
         self.ui.textBrowser.append(
             '<font color="#FF0000">Bot : '+serverMessage+'</font>')

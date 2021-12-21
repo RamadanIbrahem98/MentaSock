@@ -4,6 +4,8 @@ from datetime import datetime
 from TCPServer import TCPServer
 
 
+
+
 class TCPServerMultiClient(TCPServer):
     def __init__(self, host, port, max_connections):
         super().__init__(host, port)
@@ -31,7 +33,7 @@ class TCPServerMultiClient(TCPServer):
 def main():
     ''' Create a TCP Server and handle multiple clients simultaneously '''
 
-    tcp_server_multi_client = TCPServerMultiClient('127.0.0.1', 4444, 10)
+    tcp_server_multi_client = TCPServerMultiClient('127.0.0.1', 8080, 10)
     tcp_server_multi_client.configure_server()
     tcp_server_multi_client.wait_for_client()
 
