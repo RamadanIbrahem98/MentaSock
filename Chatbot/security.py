@@ -1,10 +1,12 @@
-
 import io
+from json import load
 import pyAesCrypt
+import os
+load_dotenv()
 class Security:
     def __init__(self):
         self.bufferSize = 1024
-        self.password = 'SockMenta'
+        self.password = os.getenv("ENCRYPTION_KEY")
     def Encrypt(self,text):
         input_data = io.BytesIO(text.encode())
         output_data = io.BytesIO()
