@@ -2,12 +2,13 @@
 import json
 import socket
 from GUI import Ui_MainWindow
-
+import io
+import pyAesCrypt
+from security import Security
 from responce import Responce
-
+message_security = Security()
 client_responce = Responce()
 ui = Ui_MainWindow()
-
 # HOST & PORT
 with open('HOST_PORT.json', 'r', encoding='utf-8') as f:
     HOST_PORT = json.load(f)
@@ -38,23 +39,35 @@ server.listen(5)
 
 
 while True:
+    
     # accepting the client handshake
     conn, addr = server.accept()
     # recieving the client message with a limit of 1024 bytes max
     try:
-        clientMessage = str(conn.recv(1024), encoding='utf-8')
+        clientMessage = (conn.recv(1024))
     except socket.error as err:
         ui.textBrowser.append('<font color="#FF0000">500: Error of Recieving Message</font>')
+
+
+	
+	
+
     # a print statement to check the client recieved message
-    print('Client message is:', clientMessage)
+    #print('Client message is:', clientMessage)
     # Repeat
 
     # setting server time out to 100 seconds of inactivity
     server.settimeout(100)
 
-    serverMessage = client_responce.get_response(clientMessage)
+
+    
+    
+
+    serverMessage = client_responce.get_response(message_security.Decrept(clientMessage))
+    
+    
     try:
-        conn.sendall(serverMessage.encode())
+        conn.sendall(message_security.Encrypt(serverMessage))
     except socket.error as err:
         ui.textBrowser.append('<font color="#FF0000">500: Error of Sending Message</font>')
     # close connection after sending the response

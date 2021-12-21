@@ -4,7 +4,7 @@ import json
 import socket
 from PyQt5 import QtWidgets
 from GUI import Ui_MainWindow
-
+from security import Security
 
 # setting up the HOST ip & PORT number from the HOST_PORT.json file
 with open('HOST_PORT.json', 'r', encoding='utf-8') as f:
@@ -17,6 +17,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # attaching the gui to our client
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.message_security = Security()
         # appending a welcoming message when the program first runs
         self.ui.textBrowser.append(
             '<font color="#FF0000">' 
@@ -33,7 +34,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.PORT = int(HOST_PORT['PORT'])
         # attaching the button click event to a connection function responsible for sending data to server
         self.ui.pushButton.clicked.connect(self.buttonEvent)
-
     def buttonEvent(self):
         # appending the text hte user sends through the textEdit widget to the textBrowser widget with the "you" key word preciding it
         text = self.ui.textEdit.toPlainText()
@@ -53,24 +53,27 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.textBrowser.append(
                 '<font color="#FF0000">500: Connection Error</font>')
             self.client.close()
-        # sending the encoded user message
+
         try:
-            self.client.sendall(text.encode())
+            self.client.sendall(self.message_security.Encrypt(text))
+            
+        
         except socket.error as err:
             self.ui.textBrowser.append('<font color="#FF0000">500: Error of Sending Message</font>')
 
         # Recieving server message (not more than 1024 bytes with encoding type of utf-8)
         try:
-            serverMessage = str(self.client.recv(1024), encoding='utf-8')
-            # appending the server response to the textBrowser widget in the GUI
-            self.ui.textBrowser.append('<font color="#FF0000">Bot : '+serverMessage+'</font>')
+            serverMessage = (self.client.recv(1024))
+            
         except socket.error as err:
             self.ui.textBrowser.append('<font color="#FF0000">500: Error of Recieving Message</font>')
         
-        
+
+        # appending the server response to the textBrowser widget in the GUI
+        self.ui.textBrowser.append('<font color="#FF0000">Bot : '+self.message_security.Decrept(serverMessage)+'</font>')
         
         # closing the connection
-        finally: self.client.close()
+        self.client.close()
 
 
 if __name__ == '__main__':
