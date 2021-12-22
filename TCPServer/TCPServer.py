@@ -45,6 +45,8 @@ class TCPServer(Response):
 
         # start listening for incoming connections
         self.logging('Listening for incoming connection...')
+        self.sock.listen(1)
+
 
         # accept a connection
         client_sock, client_address = self.sock.accept()
