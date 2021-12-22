@@ -33,7 +33,7 @@ class TCPClient:
             self.conn_sock.connect((self.host, self.port))
 
             # send data
-            self.printwt('Sending name to server to get phone number ...')
+            self.printwt('Sending name to server to get the questions ...')
             self.conn_sock.sendall(clientMessage.encode('utf-8'))
             self.printwt('[ SENT ]')
             print('\n', clientMessage, '\n')

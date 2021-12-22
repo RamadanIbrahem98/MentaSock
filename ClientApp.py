@@ -4,7 +4,7 @@ import json
 import socket
 from PyQt5 import QtWidgets
 from GUI import Ui_MainWindow
-from TCPClient import TCPClient
+from TCPClient.TCPClient import TCPClient
 
 
 # setting up the HOST ip & PORT number from the HOST_PORT.json file
@@ -18,7 +18,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # attaching the gui to our client
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # appending a welcoming message when the program first runs
+        # appending a message when the program first runs
         self.ui.textBrowser.append(
             '<font color="#FF0000">' 
             'Bot :Please read each statement and circle a number 0, 1, 2 or 3 which indicates how much the statement' 
@@ -32,42 +32,39 @@ class MainWindow(QtWidgets.QMainWindow):
         # setting the client port and host of the client as those inside the json file
         self.HOST = HOST_PORT['HOST']
         self.PORT = int(HOST_PORT['PORT'])
+        #creat client tcp connectin
         self.client = TCPClient(self.HOST,self.PORT)
         # attaching the button click event to a connection function responsible for sending data to server
+        self.ui.pushButton.setDisabled(True)
+        self.ui.textEdit.textChanged.connect(self.setButtton)
+
         self.ui.pushButton.clicked.connect(self.buttonEvent)
-
+    def setButtton(self):
+        if len(self.ui.textEdit.toPlainText()) > 0:
+            self.ui.pushButton.setDisabled(False)
+        else : self.ui.pushButton.setDisabled(True)
+    #actint taken after button cliked 
     def buttonEvent(self):
-        # appending the text hte user sends through the textEdit widget to the textBrowser widget with the "you" key word preciding it
+        # sotore the uese message in text variable 
         text = self.ui.textEdit.toPlainText()
+
+
+        #clear the text after storage it in variable 
         self.ui.textEdit.clear()
+
+        #appending the user message with you int textBrowser widget
         self.ui.textBrowser.append('You: '+text)
-        # using tcp socet connection from socket library (AF_INET means it utilizes internet connection)
-        # self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #cerate sockt connection 
         self.client.create_socket()
-
-        # connecting to the host ip and port provided by the json file
-        # try:
+        #get the server meassge 
         serverMessage = self.client.interact_with_server(text)
-        # self.client.connect((self.HOST, self.PORT))
-        # except ConnectionRefusedError as e:
-        #     self.ui.textBrowser.append(
-        #         '<font color="#FF0000">500: Internal Server Error</font>')
-        #     self.client.close()
-        #     return ''
-        # sending the encoded user message
-        # self.client.sendall(text.encode())
-
-        # Recieving server message (not more than 1024 bytes with encoding type of utf-8)
-        # serverMessage = str(self.client.recv(1024), encoding='utf-8')
-        # appending the server response to the textBrowser widget in the GUI
+        #retrieve the message from server to textBrowser widget
         self.ui.textBrowser.append(
             '<font color="#FF0000">Bot : '+serverMessage+'</font>')
-        # closing the connection
-        # finally: self.client.close()
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window = MainWindow()
+    #show the window of GUI
     window.show()
     sys.exit(app.exec_())
