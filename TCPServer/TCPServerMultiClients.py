@@ -2,7 +2,11 @@ import socket
 import threading
 from datetime import datetime
 from TCPServer import TCPServer
+import json
 
+
+with open('../HOST_PORT.json', 'r', encoding='utf-8') as f:
+    HOST_PORT = json.load(f)
 
 class TCPServerMultiClient(TCPServer):
     def __init__(self, host, port, max_connections):
@@ -31,7 +35,7 @@ class TCPServerMultiClient(TCPServer):
 def main():
     ''' Create a TCP Server and handle multiple clients simultaneously '''
 
-    tcp_server_multi_client = TCPServerMultiClient('127.0.0.1', 4444, 10)
+    tcp_server_multi_client = TCPServerMultiClient(HOST_PORT["HOST"], HOST_PORT["PORT"], 10)
     tcp_server_multi_client.configure_server()
     tcp_server_multi_client.wait_for_client()
 
