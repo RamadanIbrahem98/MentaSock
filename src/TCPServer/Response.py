@@ -132,9 +132,9 @@ class Response:
     # At the beginning of questionnaire we self.questionnaires is None
     # and we ask the user whether they are ready or not.
     if (self.questionnaires is None):
-        if user_input.toLower() in ['yes', 'no']:
+        if user_input.lower() in ['yes', 'no']:
           # if not ready, wait till he is
-          if user_input.toLower() == 'no':
+          if user_input.lower() == 'no':
             return "Whenever you're ready say yes"
           else:
             # once he is ready, retreve all available questionnaires
@@ -161,7 +161,12 @@ class Response:
     elif (user_input in self.questions[self.current_question][1].keys()):
       self._set_answer(user_input)
       # This returns the next question if exists or returns the result once the quetions list is empty.
-      return self._get_the_result() if self.current_question >= len(self.questions) else self.get_next_question()
+      if (self.current_question >= len(self.questions) ):
+        return self._get_the_result()
+
+      else :
+        return self._get_next_question()
+       
     
     # If the user types a not correct answer to any of the questions, returns this string
     return "I couldn't recognise your message. Please replay with " + ', '.join(self.questions[self.current_question][1].keys())
