@@ -1,5 +1,4 @@
 from Database import DB
-from pprint import pprint
 from typing import List, Dict, Tuple
 
 db_handler = DB()    # Creating an instance of the database handler class
