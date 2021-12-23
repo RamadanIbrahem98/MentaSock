@@ -79,9 +79,8 @@ class Response:
       question : str
           the next available question from the questions list. (empty string in case of reaching the end of the list).
     '''
-    
     question = ''
-    if (self.current_question < len(self.questions)):
+    if (self.current_question < len(self.questions) and not self.result):
       question = str(self.current_question + 1) + ' - ' + self.questions[self.current_question][0]
     return question
 
@@ -94,9 +93,9 @@ class Response:
       answer : str
           the user answer to add to the summed_weights.
     '''
-
-    self.summed_weights += self.questions[self.current_question][1][answer]
-    self.current_question += 1
+    if not self.result:
+      self.summed_weights += self.questions[self.current_question][1][answer]
+      self.current_question += 1
 
   def _get_the_result(self) -> str:
     '''
@@ -109,6 +108,7 @@ class Response:
     '''
 
     result, description = self.q.get_the_result(self.chosen_questionnair, self.summed_weights)
+    self.result = True
     return 'Your Results are: ' + result + '\n' + description
 
   def get_response(self, user_input : str) -> str:
