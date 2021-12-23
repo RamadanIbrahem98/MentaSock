@@ -1,13 +1,18 @@
 from datetime import datetime
 import socket
-from Response import Response
-import json
+from . import Response
+import os
+from dotenv import load_dotenv
 from Security.Security import Security
 
-with open('../HOST_PORT.json', 'r', encoding='utf-8') as f:
-    HOST_PORT = json.load(f)
+load_dotenv(dotenv_path=os.path.dirname(__file__)+'../.SECRETS.env')
 
-class TCPServer(Response):
+host = os.getenv("HOST")
+port = os.getenv("PORT")
+
+HOST_PORT = {'HOST': host, 'PORT': port}
+
+class TCPServer(Response.Response):
     '''
     A Simple TCP Server that handles one client at a time
     '''

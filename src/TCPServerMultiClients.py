@@ -1,10 +1,11 @@
 import threading
-from TCPServer import TCPServer
+from TCPServer.TCPServer import TCPServer
 import json
 
-
-with open('../HOST_PORT.json', 'r', encoding='utf-8') as f:
+# setting up the HOST ip & PORT number from the HOST_PORT.json file
+with open('HOST_PORT.json', 'r', encoding='utf-8') as f:
     HOST_PORT = json.load(f)
+
 
 
 class TCPServerMultiClient(TCPServer):
