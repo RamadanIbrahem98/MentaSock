@@ -37,28 +37,16 @@ class TCPServer(Response.Response):
         TODO: Configure the TCP serve
         '''
         # create TCP socket with IPv4 addressing
-        try:
-            self.logging('Creating socket...')
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        except socket.error as err:
-            # Except Error in creating socket
-            self.logging(err)
+        self.logging('Creating socket...')
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.settimeout(100)
 
         self.logging('Socket created')
 
         # bind server to the address
-        try:
-
-            self.logging(f'Binding server to {self.host}:{self.port}...')
-            self.sock.bind((self.host, self.port))
-            self.logging(f'Server binded to {self.host}:{self.port}')
-        except socket.gaierror as err :
-            #Except Address-related errors
-            self.logging(err)
-        except socket.error as err:
-            #Except connection errors
-            self.logging(err)
+        self.logging(f'Binding server to {self.host}:{self.port}...')
+        self.sock.bind((self.host, self.port))
+        self.logging(f'Server binded to {self.host}:{self.port}')
 
     def wait_for_client(self):
         ''' Wait for a client to connect '''
@@ -100,7 +88,6 @@ class TCPServer(Response.Response):
         except OSError as err:
             self.logging(err)
         except socket.error as err:
-            #Except err in recieving or  sending data
             self.logging(err)
 
         finally:
