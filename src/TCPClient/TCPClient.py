@@ -1,7 +1,7 @@
 import socket
 from datetime import datetime
 from Security.Security import Security
-from GUI import Ui_MainWindow
+
 
 class TCPClient:
     ''' A simple TCP Client that uses IPv4 '''
@@ -34,38 +34,23 @@ class TCPClient:
             # connect to server
             self.logging(f'Connecting to server [{self.host}] on port [{self.port}] ...')
             self.conn_sock.connect((self.host, self.port))
-        except socket.gaierror as err:
-            #Except Address-related errors
-            self.conn_sock.close()
-            self.logging(err)
-            return "Address-related Error"
-        except socket.error as err:
-            #Except connection errors
-            self.conn_sock.close()
-            self.logging(err)
-            return "Connection Error"
-            
+
             # send data
             self.logging('Sending data to server ...')
             self.conn_sock.sendall(self.message_security.Encrypt(clientMessage))
             self.logging('[ SENT ]')
             print('\n', clientMessage, '\n')
-        except socket.error as err:
-            # Except Errors related to sending data
-            self.logging(err)
-            return "Error in sending message"
 
-        # receive data
-        try:
+            # receive data
             resp = self.conn_sock.recv(1024)
             self.logging('[ RECEIVED ]')
+            #print('\n', resp.decode(), '\n')
             self.logging('Interaction completed successfully...')
             return self.message_security.Decrept(resp)
-        except socket.error as err:
-            self.logging(err)
-            return "Error in recieving message"
 
-        
+        except OSError as err:
+            self.logging('Cannot connect to server')
+            print(err)
 
         finally:
             # close socket
