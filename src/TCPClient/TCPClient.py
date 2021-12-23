@@ -36,7 +36,7 @@ class TCPClient:
             self.conn_sock.connect((self.host, self.port))
 
             # send data
-            self.logging('Sending name to server to get the questions ...')
+            self.logging('Sending data to server ...')
             self.conn_sock.sendall(self.message_security.Encrypt(clientMessage))
             self.logging('[ SENT ]')
             print('\n', clientMessage, '\n')
