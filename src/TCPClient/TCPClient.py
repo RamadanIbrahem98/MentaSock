@@ -45,10 +45,8 @@ class TCPClient:
             self.logging(err)
             return "Connection Error"
             
-
-        #  tring to send data
-        try :
-            self.logging('Sending name to server to get the questions ...')
+            # send data
+            self.logging('Sending data to server ...')
             self.conn_sock.sendall(self.message_security.Encrypt(clientMessage))
             self.logging('[ SENT ]')
             print('\n', clientMessage, '\n')

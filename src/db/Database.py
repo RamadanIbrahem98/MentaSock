@@ -12,7 +12,7 @@ class DB(object):
         """
 
         # the database filename
-        self.database = database
+        self.database = os.path.join(os.path.dirname(__file__), database)
         # holds incomplete statements
         self.statement = ''
         # indicates if selected data is to be returned or printed
