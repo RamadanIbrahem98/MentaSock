@@ -132,9 +132,9 @@ class Response:
     # At the beginning of questionnaire we self.questionnaires is None
     # and we ask the user whether they are ready or not.
     if (self.questionnaires is None):
-        if user_input.toLower() in ['yes', 'no']:
+        if user_input.lower() in ['yes', 'no']:
           # if not ready, wait till he is
-          if user_input.toLower() == 'no':
+          if user_input.lower() == 'no':
             return "Whenever you're ready say yes"
           else:
             # once he is ready, retreve all available questionnaires
