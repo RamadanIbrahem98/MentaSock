@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from socket import socket
 import sys
 import json
 from PyQt5 import QtWidgets
@@ -54,12 +55,19 @@ class MainWindow(QtWidgets.QMainWindow):
         #appending the user message with you int textBrowser widget
         self.ui.textBrowser.append('You: '+text)
         #cerate sockt connection 
-        self.client.create_socket()
+        try:
+            self.client.create_socket()
+        except socket.error as err:
+            # Except Errors related to Creation socket
+            self.ui.textBrowser.append('<font color="#FF0000">500: Error of Creating socket</font>')
+            TCPClient.logging(err)
         #get the server meassge 
         serverMessage = self.client.interact_with_server(text)
-        #retrieve the message from server to textBrowser widget
+            #retrieve the message from server to textBrowser widget
         self.ui.textBrowser.append(
             '<font color="#FF0000">Bot : '+serverMessage+'</font>')
+
+        
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
