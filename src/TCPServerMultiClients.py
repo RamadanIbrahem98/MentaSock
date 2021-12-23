@@ -7,7 +7,6 @@ with open('HOST_PORT.json', 'r', encoding='utf-8') as f:
     HOST_PORT = json.load(f)
 
 
-
 class TCPServerMultiClient(TCPServer):
     def __init__(self, host, port, max_connections):
         super().__init__(host, port)
