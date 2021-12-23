@@ -43,18 +43,42 @@
    pip install -r requirements.txt
    ```
 
-<!-- 1. Initialize the Database
-  
-    ```sh
-    cd db
-    python Database.py
-    ``` -->
-
 1. Run the application. Open two terminal windows. \
-   one for the server and one for the client
+   one for the server and one for the client. (don't forget to enable the environment on both terminal windows)
    
    ```sh
-   cd Chatbot
-   python server.py
-   python client.py
+   cd src
+   python TCPServerMultiClients.py
    ```
+   
+   ```sh
+   cd src
+   python ClientApp.py
+   ```
+
+## Project Structure
+
+|        Files&Folders        	|                                                        Purpose                                                       	|
+|:---------------------------	|:--------------------------------------------------------------------------------------------------------------------	|
+| src/                        	| Contains all files for the project.                                                                                  	|
+| src/db/                     	| Contains the files responsible for the Database queries.                                                             	|
+| src/db/Database.py          	| Database class for executing SQL statements on an SQLite Database.                                                   	|
+| src/db/initialization.sql   	| File contains all queries that initialize the database with the main tables and data.                                	|
+| src/db/database.db          	| Generated DB file after running the app for the first time. you can view it in any DB Browser that supports SQLite3. 	|
+| src/db/talk.py              	| File contains the class that uses the database to read all questionnaires data.                                      	|
+| src/Security/               	| Contains security files implementations.                                                                             	|
+| src/Security/Security.py    	| Contains a class responsible for encryption and decryption of hosts messages.                                        	|
+| **src/Security/.env**        	| **File that HAS to be created after cloning the repository and add the variable called ENCRYPTION_KEY.**             	|
+| src/TCPClient/              	| Contains all of the client logic implementations.                                                                    	|
+| src/TCPClient/TCPClient.py  	| Contains the class responsible for handling client messages to and from the server.                                  	|
+| src/TCPServer/              	| Contains all of the server logic implementations.                                                                    	|
+| src/TCPServer/TCPServer.py  	| Contains the class responsible for handling server responses to one client messages.                                 	|
+| src/TCPServer/Response.py   	| Contains the Response class which takes user input and returns the server response to that.                          	|
+| src/ClientApp.py            	| Contains the PyQt5 GUI instance that allows the client of interacting with the server.                               	|
+| src/TCPServerMultiClient.py 	| Contains the implementation of a class that is responsible for handling multiple clients at the same time.           	|
+| src/GUI.py                  	| Contains the PyQt5 GUI class implementation.                                                                         	|
+| src/HOST_PORT.json          	| Contains constants representing the host and port for the application.                                               	|
+
+## Current Problems
+
+Although the Server is able to handle multiple clients, it is using the same response class, so we can't let multiple users take the questionnaire at the same time
