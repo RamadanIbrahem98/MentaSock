@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 
 class DB(object):
@@ -18,7 +19,7 @@ class DB(object):
         self.display = False
         if statements is None:
             statements = []
-        with open('initialization.sql', 'r', encoding='utf-8') as sql_file:
+        with open(os.path.join(os.path.dirname(__file__), 'initialization.sql'), 'r', encoding='utf-8') as sql_file:
             database_initialization = sql_file.read()
 
         self.connect()

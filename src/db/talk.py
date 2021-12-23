@@ -1,7 +1,7 @@
-from Database import DB
+from . import Database
 from typing import List, Dict, Tuple
 
-db_handler = DB()    # Creating an instance of the database handler class
+db_handler = Database.DB()    # Creating an instance of the database handler class
 
 
 class Questionnaires:
