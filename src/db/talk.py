@@ -130,7 +130,7 @@ class Questionnaires:
       FROM questionnaire_result r
         JOIN result res on r.result_id = res.id
         JOIN questionnaire q on r.questionnaire_for = q.for
-      WHERE q.for = '{}' AND res.minimum < {} AND res.maximum > {};
+      WHERE q.for = '{}' AND res.minimum <= {} AND res.maximum >= {};
     '''.format(questionnaire, score, score)
 
     # execute the query responsible for fetching the result
