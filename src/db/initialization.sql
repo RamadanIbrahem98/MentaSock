@@ -206,22 +206,29 @@ VALUES (
     10,
     13,
     'Mild Depression',
-    'You are experiencing a mild form of depression'
+    'You are experiencing a mild form of depression, you should talk to a friend'
   ),
   (
     14,
     20,
     'Moderate Depression',
-    'You are experiencing a moderate form of depression'
+    'You are experiencing a moderate form of depression, you should talk to a friend'
   ),
   (
     21,
     27,
     'Severe Depression',
-    'You are experiencing a severe form of depression'
+    'You are experiencing a severe form of depression, you should seek medical attention'
+  ),
+  (
+    28,
+    100,
+    'Extremely Severe Depression',
+    'You are experiencing an extremely severe form of depression, you should seek medical attention'
   );
 INSERT INTO questionnaire_result (result_id, questionnaire_for)
 VALUES (1, 'Depression'),
   (2, 'Depression'),
   (3, 'Depression'),
-  (4, 'Depression');
+  (4, 'Depression'),
+  (5, 'Depression');
