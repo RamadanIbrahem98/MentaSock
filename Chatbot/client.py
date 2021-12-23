@@ -4,7 +4,7 @@ import json
 import socket
 from PyQt5 import QtWidgets
 from GUI import Ui_MainWindow
-from security import Security
+from src.Security.security import Security
 
 # setting up the HOST ip & PORT number from the HOST_PORT.json file
 with open('HOST_PORT.json', 'r', encoding='utf-8') as f:

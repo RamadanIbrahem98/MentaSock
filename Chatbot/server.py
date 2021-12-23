@@ -4,7 +4,7 @@ import socket
 from GUI import Ui_MainWindow
 import io
 import pyAesCrypt
-from security import Security
+from src.Security.security import Security
 from responce import Responce
 message_security = Security()
 client_responce = Responce()
