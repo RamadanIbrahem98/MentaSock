@@ -22,6 +22,7 @@ class TCPServer(Response.Response):
         self.host = host
         self.port = port
         self.socket = None
+        self.message_security = Security()
         # Delete this line after implementing the TCP server
         self.logging('Initializing the TCP Server')
 
@@ -67,7 +68,7 @@ class TCPServer(Response.Response):
             data_enc = client_sock.recv(1024)
             while data_enc:
                 # client's request
-                name = data_enc.decode()
+                name = self.message_security.Decrept(data_enc)
 
                 # resp = 'Hello From Server'
                 resp = self.get_response(name)
@@ -77,7 +78,7 @@ class TCPServer(Response.Response):
 
                 # send response
                 self.logging(f'[ RESPONSE to {client_address} ]')
-                client_sock.sendall(resp.encode('utf-8'))
+                client_sock.sendall(self.message_security.Encrypt(resp))
                 print('\n', resp, '\n')
 
                 # get more data and check if client closed the connection

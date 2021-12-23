@@ -3,16 +3,18 @@ from json import load
 import pyAesCrypt
 import os
 from dotenv import load_dotenv
-load_dotenv(dotenv_path=os.path.dirname(__file__)+'../.SECRETS.env')
-
+load_dotenv()
 class Security:
     def __init__(self):
         self.bufferSize = 1024
         self.password = os.getenv("ENCRYPTION_KEY")
 
     def Encrypt(self, text):
+        # input plaintext binary stream
         input_data = io.BytesIO(text.encode())
+        # initialize ciphertext binary stream
         output_data = io.BytesIO()
+        # encrypt stream
         pyAesCrypt.encryptStream(
             input_data, output_data, self.password, self.bufferSize)
         # Data to send
@@ -20,6 +22,7 @@ class Security:
         return dataToSend
 
     def Decrept(self, text):
+        # Initializing ciphertext binary stream
         fullData = b''
         input_data = io.BytesIO()
         output_data = io.BytesIO()
