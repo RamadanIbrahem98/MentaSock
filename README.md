@@ -40,6 +40,7 @@
 1. Install the requirements and dependancies
 
    ```sh
+   python -m pip install --upgrade pip
    pip install -r requirements.txt
    ```
 
