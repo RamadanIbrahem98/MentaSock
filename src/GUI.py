@@ -64,5 +64,5 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "SockBot"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "SockMenta"))
         self.pushButton.setText(_translate("MainWindow", "Send"))

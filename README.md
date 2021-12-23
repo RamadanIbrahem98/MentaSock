@@ -1,6 +1,12 @@
 # Socket Programming in Python
 
-<!-- TODO: Add Project Description -->
+## About the Project
+
+This is a GUI application that serves psychological questionnaires to clients and gives them the overall results
+
+## Protocol Used
+
+We used **TCP** protocol for the Transportation Layer.
 
 ## Prerequisites
 
