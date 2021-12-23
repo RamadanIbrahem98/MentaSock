@@ -10,6 +10,7 @@ class TCPClient:
         self.host = host        # host address
         self.port = port        # host port
         self.conn_sock = None   # connection socket
+        self.message_security = Security()
 
     def logging(self, msg):
         ''' Print message with current date and time '''
@@ -36,16 +37,16 @@ class TCPClient:
 
             # send data
             self.logging('Sending name to server to get the questions ...')
-            self.conn_sock.sendall(clientMessage.encode('utf-8'))
+            self.conn_sock.sendall(self.message_security.Encrypt(clientMessage))
             self.logging('[ SENT ]')
             print('\n', clientMessage, '\n')
 
             # receive data
             resp = self.conn_sock.recv(1024)
             self.logging('[ RECEIVED ]')
-            print('\n', resp.decode(), '\n')
+            #print('\n', resp.decode(), '\n')
             self.logging('Interaction completed successfully...')
-            return resp.decode()
+            return self.message_security.Decrept(resp)
 
         except OSError as err:
             self.logging('Cannot connect to server')
